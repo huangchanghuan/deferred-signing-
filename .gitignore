@@ -1,0 +1,5 @@
+.idea/
+target/
+DeferredSigning.iml
+src/main/resources/
+results/
