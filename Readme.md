@@ -9,5 +9,10 @@ SignerClient main方法可以执行具体流程
 
 3.post signed hash to get the signed PDF
 
+注意:
+
+项目公钥证书,私钥证书,印章图片,待签名文件,属性配置文件,请自己准备.
+
+![截图](说明.jpg)
 
 
