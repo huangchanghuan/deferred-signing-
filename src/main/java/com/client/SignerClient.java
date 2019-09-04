@@ -10,8 +10,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -22,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * pdf·ÖÀëÇ©ÊğÀı×Ó
+ * pdfåˆ†ç¦»ç­¾ç½²ä¾‹å­
  */
 public class SignerClient {
     static String PreSignURL;
@@ -39,7 +37,7 @@ public class SignerClient {
 
     private String message;
 
-    //±£´æ¹²Ïí±äÁ¿
+    //ä¿å­˜å…±äº«å˜é‡
     private HashMap<String, Object> shareMap = new HashMap<>();
 
     public static void readProperty(String propertyPath) {
@@ -71,14 +69,14 @@ public class SignerClient {
             PdfSignatureAppearance sap = stamper.getSignatureAppearance();
             sap.setRenderingMode(PdfSignatureAppearance.RenderingMode.GRAPHIC);
 
-            //Í¼Æ¬
-            Image image = Image.getInstance(IMAGE_DEST); //Ê¹ÓÃpng¸ñÊ½Í¸Ã÷Í¼Æ¬
+            //å›¾ç‰‡
+            Image image = Image.getInstance(IMAGE_DEST); //ä½¿ç”¨pngæ ¼å¼é€æ˜å›¾ç‰‡
 //            image.scaleAbsolute(200,200);
             sap.setSignatureGraphic(image);
 
 
-            sap.setReason("simÇ©µç×ÓÆ½Ì¨Ç©Êğ");
-            sap.setLocation("ÖĞ¹ú¹ãÖİÊĞ");
+            sap.setReason("simç­¾ç”µå­å¹³å°ç­¾ç½²");
+            sap.setLocation("ä¸­å›½å¹¿å·å¸‚");
             sap.setVisibleSignature(new Rectangle(100, 500, 300, 700), 1, "sig");
             sap.setCertificate(chain[0]);
             //the time
@@ -108,7 +106,7 @@ public class SignerClient {
             PdfPKCS7 sgn = new PdfPKCS7(null, chain, "SHA256", null, externalDigest, false);
             InputStream data = sap.getRangeStream();
             byte hash[] = DigestAlgorithms.digest(data, externalDigest.getMessageDigest("SHA256"));
-            System.out.println("sha256 ºó×Ö½Ú³¤¶È:"+hash.length);
+            System.out.println("sha256 åå­—èŠ‚é•¿åº¦:"+hash.length);
             System.out.println("base64 before getAuthenticatedAttributeBytes hash:\n" + new String(Base64.encode(hash), Charsets.UTF_8));
 
             // we get OCSP and CRL for the cert
@@ -120,7 +118,7 @@ public class SignerClient {
             }
             Collection<byte[]> crlBytes = null;
             byte[] sh = sgn.getAuthenticatedAttributeBytes(hash, null, null, MakeSignature.CryptoStandard.CMS);
-            System.out.println("Ç©ÃûÇ°×Ö½Ú³¤¶È:"+sh.length);
+            System.out.println("ç­¾åå‰å­—èŠ‚é•¿åº¦:"+sh.length);
 
 
             // We store the objects we'll need for post signing in a shareMap
@@ -215,7 +213,7 @@ public class SignerClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Ç©Ãûºó×Ö½Ú³¤¶È:"+signature.length);
+        System.out.println("ç­¾ååå­—èŠ‚é•¿åº¦:"+signature.length);
         System.out.println("base64 signed hash:\n" + new String(Base64.encode(signature), Charsets.UTF_8));
 
         // 3. post signed hash to get the signed PDF
